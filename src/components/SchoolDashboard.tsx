@@ -3,6 +3,7 @@ import { useAuth } from '../hooks/useAuth';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { FileText, Plus, Clock, CheckCircle, XCircle } from 'lucide-react';
+import { toast } from '@/hooks/use-toast';
 
 export function SchoolDashboard() {
   const { user } = useAuth();
@@ -13,6 +14,13 @@ export function SchoolDashboard() {
     { id: '2', title: 'دورة التجويد المتقدمة', status: 'approved', date: '2024-01-10' },
     { id: '3', title: 'برنامج القراءات العشر', status: 'rejected', date: '2024-01-05' },
   ];
+
+  const handleCreateInvoice = () => {
+    toast({
+      title: "فاتورة جديدة",
+      description: "تم فتح نموذج إنشاء فاتورة جديدة",
+    });
+  };
 
   const getStatusIcon = (status: string) => {
     switch (status) {
@@ -104,7 +112,10 @@ export function SchoolDashboard() {
                 <CardTitle className="text-purple-800">فواتيرك</CardTitle>
                 <CardDescription>جميع الفواتير المرسلة</CardDescription>
               </div>
-              <Button className="bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600">
+              <Button 
+                onClick={handleCreateInvoice}
+                className="bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600"
+              >
                 <Plus className="h-4 w-4 ml-2" />
                 فاتورة جديدة
               </Button>

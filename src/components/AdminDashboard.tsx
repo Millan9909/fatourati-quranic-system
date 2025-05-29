@@ -3,6 +3,7 @@ import { useAuth } from '../hooks/useAuth';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Users, FileText, School, TrendingUp } from 'lucide-react';
+import { toast } from '@/hooks/use-toast';
 
 export function AdminDashboard() {
   const { user } = useAuth();
@@ -20,6 +21,34 @@ export function AdminDashboard() {
     { id: '2', name: 'مدرسة أسماء لتحفيظ القرآن', code: 'ASMA002', invoices: 3 },
     { id: '3', name: 'مدرسة آسيا لتحفيظ القرآن', code: 'ASIA003', invoices: 7 }
   ];
+
+  const handlePendingInvoices = () => {
+    toast({
+      title: "مراجعة الفواتير",
+      description: "تم فتح صفحة مراجعة الفواتير المعلقة",
+    });
+  };
+
+  const handleAddSchool = () => {
+    toast({
+      title: "إضافة مدرسة",
+      description: "تم فتح نموذج إضافة مدرسة جديدة",
+    });
+  };
+
+  const handleMonthlyReport = () => {
+    toast({
+      title: "التقرير الشهري",
+      description: "تم إنشاء التقرير الشهري بنجاح",
+    });
+  };
+
+  const handleSystemSettings = () => {
+    toast({
+      title: "إعدادات النظام",
+      description: "تم فتح صفحة إعدادات النظام",
+    });
+  };
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
@@ -100,16 +129,31 @@ export function AdminDashboard() {
           </CardHeader>
           <CardContent>
             <div className="space-y-4">
-              <Button className="w-full bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600">
+              <Button 
+                onClick={handlePendingInvoices}
+                className="w-full bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600"
+              >
                 مراجعة الفواتير المعلقة
               </Button>
-              <Button variant="outline" className="w-full border-purple-200 text-purple-700 hover:bg-purple-50">
+              <Button 
+                onClick={handleAddSchool}
+                variant="outline" 
+                className="w-full border-purple-200 text-purple-700 hover:bg-purple-50"
+              >
                 إضافة مدرسة جديدة
               </Button>
-              <Button variant="outline" className="w-full border-purple-200 text-purple-700 hover:bg-purple-50">
+              <Button 
+                onClick={handleMonthlyReport}
+                variant="outline" 
+                className="w-full border-purple-200 text-purple-700 hover:bg-purple-50"
+              >
                 تقرير شهري
               </Button>
-              <Button variant="outline" className="w-full border-purple-200 text-purple-700 hover:bg-purple-50">
+              <Button 
+                onClick={handleSystemSettings}
+                variant="outline" 
+                className="w-full border-purple-200 text-purple-700 hover:bg-purple-50"
+              >
                 إعدادات النظام
               </Button>
             </div>

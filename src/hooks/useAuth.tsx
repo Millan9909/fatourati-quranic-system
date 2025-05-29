@@ -1,12 +1,7 @@
 
-import React, { createContext, useContext, useState, useEffect } from 'react';
-
-interface User {
-  id: string;
-  type: 'admin' | 'school';
-  schoolName?: string;
-  schoolCode?: string;
-}
+import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
+import { User } from '../types';
+import { schools } from '../data/schools';
 
 interface AuthContextType {
   user: User | null;
@@ -17,13 +12,12 @@ interface AuthContextType {
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-export function AuthProvider({ children }: { children: React.ReactNode }) {
+export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    // Check for saved user data on mount
-    const savedUser = localStorage.getItem('auth_user');
+    const savedUser = localStorage.getItem('quranic-invoice-user');
     if (savedUser) {
       setUser(JSON.parse(savedUser));
     }
@@ -31,35 +25,28 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   }, []);
 
   const login = (code: string): boolean => {
-    const upperCode = code.toUpperCase();
-    
-    // Admin login
-    if (upperCode === 'ADMIN') {
+    // Check if admin
+    if (code === 'ADMIN') {
       const adminUser: User = {
         id: 'admin',
         type: 'admin'
       };
       setUser(adminUser);
-      localStorage.setItem('auth_user', JSON.stringify(adminUser));
+      localStorage.setItem('quranic-invoice-user', JSON.stringify(adminUser));
       return true;
     }
 
-    // School login
-    const schoolMap: Record<string, string> = {
-      'NOOR004': 'مدرسة النور لتحفيظ القرآن',
-      'ASMA002': 'مدرسة أسماء لتحفيظ القرآن',
-      'ASIA003': 'مدرسة آسيا لتحفيظ القرآن'
-    };
-
-    if (schoolMap[upperCode]) {
+    // Check if school
+    const school = schools.find(s => s.code === code);
+    if (school) {
       const schoolUser: User = {
-        id: upperCode,
+        id: school.id,
         type: 'school',
-        schoolName: schoolMap[upperCode],
-        schoolCode: upperCode
+        schoolId: school.id,
+        schoolName: school.name
       };
       setUser(schoolUser);
-      localStorage.setItem('auth_user', JSON.stringify(schoolUser));
+      localStorage.setItem('quranic-invoice-user', JSON.stringify(schoolUser));
       return true;
     }
 
@@ -68,7 +55,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   const logout = () => {
     setUser(null);
-    localStorage.removeItem('auth_user');
+    localStorage.removeItem('quranic-invoice-user');
   };
 
   return (

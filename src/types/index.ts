@@ -1,37 +1,39 @@
 
-export interface User {
+export interface School {
   id: string;
-  type: 'admin' | 'school';
-  schoolName?: string;
-  schoolCode?: string;
+  name: string;
+  code: string;
+  password: string;
 }
 
 export interface Program {
   id: string;
   name: string;
-  description: string;
+  description?: string;
   createdAt: Date;
 }
 
 export interface Invoice {
   id: string;
-  title: string;
-  description: string;
-  amount: number;
-  status: 'pending' | 'approved' | 'rejected';
   schoolId: string;
   schoolName: string;
-  createdAt: string;
-  updatedAt: string;
+  programId: string;
+  programName: string;
+  title: string;
+  description: string;
+  startDate: string;
+  endDate: string;
+  fileUrl: string;
+  fileName: string;
+  status: 'pending' | 'approved' | 'rejected';
   notes?: string;
+  createdAt: Date;
+  updatedAt: Date;
 }
 
-export interface School {
+export interface User {
   id: string;
-  name: string;
-  code: string;
-  status: 'active' | 'inactive';
-  totalInvoices: number;
-  pendingInvoices: number;
-  approvedInvoices: number;
+  type: 'school' | 'admin';
+  schoolId?: string;
+  schoolName?: string;
 }

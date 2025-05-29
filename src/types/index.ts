@@ -6,6 +6,13 @@ export interface User {
   schoolCode?: string;
 }
 
+export interface Program {
+  id: string;
+  name: string;
+  description: string;
+  createdAt: Date;
+}
+
 export interface Invoice {
   id: string;
   title: string;
@@ -16,6 +23,7 @@ export interface Invoice {
   schoolName: string;
   createdAt: string;
   updatedAt: string;
+  notes?: string;
 }
 
 export interface School {

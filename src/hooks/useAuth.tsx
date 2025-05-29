@@ -5,7 +5,7 @@ import { schools } from '../data/schools';
 
 interface AuthContextType {
   user: User | null;
-  login: (code: string, password: string) => boolean;
+  login: (code: string) => boolean;
   logout: () => void;
   isLoading: boolean;
 }
@@ -24,9 +24,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     setIsLoading(false);
   }, []);
 
-  const login = (code: string, password: string): boolean => {
+  const login = (code: string): boolean => {
     // Check if admin
-    if (code === 'ADMIN' && password === '9909') {
+    if (code === 'ADMIN') {
       const adminUser: User = {
         id: 'admin',
         type: 'admin'
@@ -37,7 +37,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
 
     // Check if school
-    const school = schools.find(s => s.code === code && s.password === password);
+    const school = schools.find(s => s.code === code);
     if (school) {
       const schoolUser: User = {
         id: school.id,

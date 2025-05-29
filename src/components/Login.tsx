@@ -5,22 +5,20 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { toast } from '@/hooks/use-toast';
-import { Eye, EyeOff, School, Shield } from 'lucide-react';
+import { School, Shield } from 'lucide-react';
 
 export function Login() {
   const [code, setCode] = useState('');
-  const [password, setPassword] = useState('');
-  const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const { login } = useAuth();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
-    if (!code || !password) {
+    if (!code) {
       toast({
         title: "خطأ",
-        description: "يرجى إدخال الرمز وكلمة المرور",
+        description: "يرجى إدخال رمز المدرسة أو الإدارة",
         variant: "destructive",
       });
       return;
@@ -31,7 +29,7 @@ export function Login() {
     // Simulate loading
     await new Promise(resolve => setTimeout(resolve, 1000));
     
-    const success = login(code, password);
+    const success = login(code);
     
     if (success) {
       toast({
@@ -41,7 +39,7 @@ export function Login() {
     } else {
       toast({
         title: "خطأ في تسجيل الدخول",
-        description: "الرمز أو كلمة المرور غير صحيحة",
+        description: "الرمز غير صحيح، يرجى التأكد من الرمز المدخل",
         variant: "destructive",
       });
     }
@@ -69,7 +67,7 @@ export function Login() {
               تسجيل الدخول
             </CardTitle>
             <CardDescription className="text-purple-600">
-              أدخل رمز المدرسة وكلمة المرور للدخول
+              أدخل رمز المدرسة أو الإدارة للدخول
             </CardDescription>
           </CardHeader>
           <CardContent>
@@ -82,42 +80,19 @@ export function Login() {
                   id="code"
                   type="text"
                   value={code}
-                  onChange={(e) => setCode(e.target.value)}
+                  onChange={(e) => setCode(e.target.value.toUpperCase())}
                   placeholder="مثال: NOOR004 أو ADMIN"
-                  className="text-right border-purple-200 focus:border-purple-400"
+                  className="text-right border-purple-200 focus:border-purple-400 text-lg font-mono text-center"
                   dir="ltr"
                 />
               </div>
 
-              <div className="space-y-2">
-                <label htmlFor="password" className="text-sm font-medium text-purple-800">
-                  كلمة المرور
-                </label>
-                <div className="relative">
-                  <Input
-                    id="password"
-                    type={showPassword ? "text" : "password"}
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    placeholder="أدخل كلمة المرور"
-                    className="text-right border-purple-200 focus:border-purple-400 pl-10"
-                  />
-                  <button
-                    type="button"
-                    onClick={() => setShowPassword(!showPassword)}
-                    className="absolute left-3 top-1/2 transform -translate-y-1/2 text-purple-500 hover:text-purple-700"
-                  >
-                    {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
-                  </button>
-                </div>
-              </div>
-
               <Button 
                 type="submit" 
-                className="w-full bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white font-medium py-2.5"
+                className="w-full bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white font-medium py-3 text-lg"
                 disabled={isLoading}
               >
-                {isLoading ? "جاري تسجيل الدخول..." : "تسجيل الدخول"}
+                {isLoading ? "جاري تسجيل الدخول..." : "دخول"}
               </Button>
 
               <div className="text-center">
@@ -125,11 +100,11 @@ export function Login() {
                   type="button" 
                   className="text-sm text-purple-600 hover:text-purple-800 underline"
                   onClick={() => toast({
-                    title: "استعادة كلمة المرور",
-                    description: "يرجى التواصل مع الإدارة لاستعادة كلمة المرور",
+                    title: "مساعدة",
+                    description: "يرجى التواصل مع الإدارة للحصول على رمز المدرسة",
                   })}
                 >
-                  نسيت كلمة المرور؟
+                  لا أملك رمز المدرسة؟
                 </button>
               </div>
             </form>
@@ -137,12 +112,13 @@ export function Login() {
             <div className="mt-6 p-4 bg-purple-50 rounded-lg">
               <h3 className="font-medium text-purple-800 mb-2 flex items-center gap-2">
                 <Shield className="h-4 w-4" />
-                معلومات تجريبية:
+                أمثلة على الرموز:
               </h3>
               <div className="text-sm text-purple-700 space-y-1">
-                <p><strong>للإدارة:</strong> ADMIN / 9909</p>
-                <p><strong>مدرسة النور:</strong> NOOR004 / 4567</p>
-                <p><strong>مدرسة أسماء:</strong> ASMA002 / 2345</p>
+                <p><strong>للإدارة:</strong> ADMIN</p>
+                <p><strong>مدرسة النور:</strong> NOOR004</p>
+                <p><strong>مدرسة أسماء:</strong> ASMA002</p>
+                <p><strong>مدرسة آسيا:</strong> ASIA003</p>
               </div>
             </div>
           </CardContent>

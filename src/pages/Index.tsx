@@ -2,8 +2,7 @@
 import { useAuth } from '../hooks/useAuth';
 import { AuthProvider } from '../hooks/useAuth';
 import { Login } from '../components/Login';
-import { Header } from '../components/Header';
-import { AdminDashboard } from '../components/AdminDashboard';
+import { MainLayout } from '../components/MainLayout';
 import { SchoolDashboard } from '../components/SchoolDashboard';
 
 function AppContent() {
@@ -25,12 +24,9 @@ function AppContent() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-pink-50 via-purple-50 to-indigo-100">
-      <Header />
-      <main>
-        {user.type === 'admin' ? <AdminDashboard /> : <SchoolDashboard />}
-      </main>
-    </div>
+    <>
+      {user.type === 'admin' ? <MainLayout /> : <SchoolDashboard />}
+    </>
   );
 }
 

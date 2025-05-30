@@ -3,7 +3,6 @@ import { useState } from 'react';
 import { SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar';
 import { AppSidebar } from './AppSidebar';
 import { AdminDashboard } from './AdminDashboard';
-import { Button } from '@/components/ui/button';
 import { Menu } from 'lucide-react';
 
 export function MainLayout() {
@@ -65,10 +64,8 @@ export function MainLayout() {
         <div className="flex-1 flex flex-col">
           {/* Header with sidebar trigger */}
           <header className="h-16 border-b border-purple-200 bg-white/80 backdrop-blur-sm flex items-center px-6 gap-4">
-            <SidebarTrigger asChild>
-              <Button variant="ghost" size="icon" className="text-purple-600 hover:bg-purple-100">
-                <Menu className="h-5 w-5" />
-              </Button>
+            <SidebarTrigger className="text-purple-600 hover:bg-purple-100 p-2 rounded-md">
+              <Menu className="h-5 w-5" />
             </SidebarTrigger>
             
             <div className="flex-1">

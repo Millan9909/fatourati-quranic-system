@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { usePrograms, useInvoices } from '../hooks/useStorage';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -9,8 +8,12 @@ import { Badge } from '@/components/ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { toast } from '@/hooks/use-toast';
-import { Plus, FileText, School, BarChart3, Eye, Check, X, Trash2 } from 'lucide-react';
+import { Plus, FileText, School, BarChart3, Eye, Check, X, Trash2, Download, Settings } from 'lucide-react';
 import { schools } from '../data/schools';
+import { StatsCards } from './StatsCards';
+import { InvoiceChart } from './InvoiceChart';
+import { RecentActivity } from './RecentActivity';
+import { QuickActions } from './QuickActions';
 
 export function AdminDashboard() {
   const { programs, addProgram, deleteProgram } = usePrograms();
@@ -50,69 +53,91 @@ export function AdminDashboard() {
     });
   };
 
+  const handleExportData = () => {
+    toast({
+      title: "تم بدء التصدير",
+      description: "سيتم تحميل الملف قريباً",
+    });
+  };
+
+  // إحصائيات متقدمة
   const stats = {
     totalInvoices: invoices.length,
+    totalSchools: schools.length,
+    totalAmount: invoices.reduce((sum, inv) => sum + (inv.amount || 2500), 0),
     pendingInvoices: invoices.filter(inv => inv.status === 'pending').length,
     approvedInvoices: invoices.filter(inv => inv.status === 'approved').length,
     rejectedInvoices: invoices.filter(inv => inv.status === 'rejected').length,
   };
 
+  // الأنشطة الحديثة (محاكاة)
+  const recentActivities = [
+    {
+      id: '1',
+      type: 'invoice_created' as const,
+      description: 'تم إنشاء فاتورة جديدة من مدرسة النور',
+      timestamp: new Date(Date.now() - 1000 * 60 * 30),
+      school: 'النور'
+    },
+    {
+      id: '2',
+      type: 'invoice_approved' as const,
+      description: 'تم قبول فاتورة مدرسة أسماء بنت أبي بكر',
+      timestamp: new Date(Date.now() - 1000 * 60 * 60 * 2),
+      school: 'أسماء بنت أبي بكر'
+    },
+    {
+      id: '3',
+      type: 'invoice_rejected' as const,
+      description: 'تم رفض فاتورة مدرسة آسيا بنت مزاحم',
+      timestamp: new Date(Date.now() - 1000 * 60 * 60 * 4),
+      school: 'آسيا بنت مزاحم'
+    }
+  ];
+
   return (
-    <div className="p-6 max-w-7xl mx-auto">
+    <div className="p-6 max-w-7xl mx-auto space-y-8">
       <div className="mb-8">
-        <h1 className="text-3xl font-bold text-purple-800 mb-2">لوحة تحكم الإدارة</h1>
-        <p className="text-purple-600">إدارة البرامج ومراجعة الفواتير</p>
+        <h1 className="text-3xl font-bold text-purple-800 mb-2">لوحة التحكم</h1>
+        <p className="text-purple-600">نظرة عامة على فواتير البرامج القرآنية</p>
       </div>
 
-      {/* Statistics Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
-        <Card className="bg-gradient-to-br from-blue-50 to-blue-100 border-blue-200">
-          <CardContent className="p-6">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-blue-600 text-sm font-medium">إجمالي الفواتير</p>
-                <p className="text-2xl font-bold text-blue-800">{stats.totalInvoices}</p>
-              </div>
-              <FileText className="h-8 w-8 text-blue-500" />
-            </div>
-          </CardContent>
-        </Card>
+      {/* بطاقات الإحصائيات */}
+      <StatsCards {...stats} />
 
-        <Card className="bg-gradient-to-br from-yellow-50 to-yellow-100 border-yellow-200">
-          <CardContent className="p-6">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-yellow-600 text-sm font-medium">بانتظار المراجعة</p>
-                <p className="text-2xl font-bold text-yellow-800">{stats.pendingInvoices}</p>
-              </div>
-              <BarChart3 className="h-8 w-8 text-yellow-500" />
-            </div>
-          </CardContent>
-        </Card>
+      {/* الرسوم البيانية */}
+      <InvoiceChart invoices={invoices} />
 
-        <Card className="bg-gradient-to-br from-green-50 to-green-100 border-green-200">
-          <CardContent className="p-6">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-green-600 text-sm font-medium">مقبولة</p>
-                <p className="text-2xl font-bold text-green-800">{stats.approvedInvoices}</p>
-              </div>
-              <Check className="h-8 w-8 text-green-500" />
-            </div>
-          </CardContent>
-        </Card>
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        {/* الأنشطة الحديثة */}
+        <div className="lg:col-span-2">
+          <RecentActivity activities={recentActivities} />
+        </div>
 
-        <Card className="bg-gradient-to-br from-red-50 to-red-100 border-red-200">
-          <CardContent className="p-6">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-red-600 text-sm font-medium">مرفوضة</p>
-                <p className="text-2xl font-bold text-red-800">{stats.rejectedInvoices}</p>
-              </div>
-              <X className="h-8 w-8 text-red-500" />
-            </div>
-          </CardContent>
-        </Card>
+        {/* الإجراءات السريعة */}
+        <div>
+          <QuickActions
+            onAddProgram={() => {
+              toast({
+                title: "إضافة برنامج",
+                description: "انتقل إلى تبويب 'إدارة البرامج' لإضافة برنامج جديد",
+              });
+            }}
+            onViewReports={() => {
+              toast({
+                title: "التقارير",
+                description: "ميزة التقارير المتقدمة قريباً",
+              });
+            }}
+            onExportData={handleExportData}
+            onSystemSettings={() => {
+              toast({
+                title: "الإعدادات",
+                description: "ميزة الإعدادات قريباً",
+              });
+            }}
+          />
+        </div>
       </div>
 
       <Tabs defaultValue="invoices" className="w-full">

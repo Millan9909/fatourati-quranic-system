@@ -27,6 +27,7 @@ export interface Invoice {
   fileName: string;
   status: 'pending' | 'approved' | 'rejected';
   notes?: string;
+  amount?: number;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -36,4 +37,13 @@ export interface User {
   type: 'school' | 'admin';
   schoolId?: string;
   schoolName?: string;
+}
+
+export interface Activity {
+  id: string;
+  type: 'invoice_created' | 'invoice_approved' | 'invoice_rejected' | 'school_registered';
+  description: string;
+  timestamp: Date;
+  user?: string;
+  school?: string;
 }

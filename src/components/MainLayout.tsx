@@ -3,6 +3,11 @@ import { useState } from 'react';
 import { SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar';
 import { AppSidebar } from './AppSidebar';
 import { AdminDashboard } from './AdminDashboard';
+import { SchoolsManagement } from './SchoolsManagement';
+import { ProgramsManagement } from './ProgramsManagement';
+import { InvoicesReview } from './InvoicesReview';
+import { ReportsStatistics } from './ReportsStatistics';
+import { SystemSettings } from './SystemSettings';
 import { Menu } from 'lucide-react';
 
 export function MainLayout() {
@@ -17,40 +22,15 @@ export function MainLayout() {
       case 'dashboard':
         return <AdminDashboard />;
       case 'schools':
-        return (
-          <div className="p-6">
-            <h1 className="text-2xl font-bold text-purple-800 mb-4">إدارة المدارس</h1>
-            <p className="text-purple-600">هذا القسم قيد التطوير...</p>
-          </div>
-        );
+        return <SchoolsManagement />;
       case 'programs':
-        return (
-          <div className="p-6">
-            <h1 className="text-2xl font-bold text-purple-800 mb-4">إدارة البرامج</h1>
-            <p className="text-purple-600">هذا القسم قيد التطوير...</p>
-          </div>
-        );
+        return <ProgramsManagement />;
       case 'invoices':
-        return (
-          <div className="p-6">
-            <h1 className="text-2xl font-bold text-purple-800 mb-4">مراجعة الفواتير</h1>
-            <p className="text-purple-600">هذا القسم قيد التطوير...</p>
-          </div>
-        );
+        return <InvoicesReview />;
       case 'reports':
-        return (
-          <div className="p-6">
-            <h1 className="text-2xl font-bold text-purple-800 mb-4">التقارير والإحصائيات</h1>
-            <p className="text-purple-600">هذا القسم قيد التطوير...</p>
-          </div>
-        );
+        return <ReportsStatistics />;
       case 'settings':
-        return (
-          <div className="p-6">
-            <h1 className="text-2xl font-bold text-purple-800 mb-4">إعدادات النظام</h1>
-            <p className="text-purple-600">هذا القسم قيد التطوير...</p>
-          </div>
-        );
+        return <SystemSettings />;
       default:
         return <AdminDashboard />;
     }

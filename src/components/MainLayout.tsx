@@ -38,21 +38,20 @@ export function MainLayout() {
 
   return (
     <SidebarProvider>
-      <div className="min-h-screen flex w-full bg-gradient-to-br from-pink-50 via-purple-50 to-indigo-100">
-        <AppSidebar activeItem={activeItem} onItemClick={handleItemClick} />
+      <div className="min-h-screen flex w-full bg-gradient-to-br from-pink-50 via-purple-50 to-indigo-100" dir="rtl">
         
         <div className="flex-1 flex flex-col">
           {/* Header with sidebar trigger */}
           <header className="h-16 border-b border-purple-200 bg-white/80 backdrop-blur-sm flex items-center px-6 gap-4">
-            <SidebarTrigger className="text-purple-600 hover:bg-purple-100 p-2 rounded-md transition-colors">
-              <Menu className="h-5 w-5" />
-            </SidebarTrigger>
-            
             <div className="flex-1">
               <h1 className="text-lg font-semibold text-purple-800">
                 نظام إدارة فواتير البرامج القرآنية
               </h1>
             </div>
+            
+            <SidebarTrigger className="text-purple-600 hover:bg-purple-100 p-2 rounded-md transition-colors">
+              <Menu className="h-5 w-5" />
+            </SidebarTrigger>
           </header>
 
           {/* Main content */}
@@ -60,6 +59,8 @@ export function MainLayout() {
             {renderContent()}
           </main>
         </div>
+
+        <AppSidebar activeItem={activeItem} onItemClick={handleItemClick} />
       </div>
     </SidebarProvider>
   );

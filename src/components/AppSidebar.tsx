@@ -75,7 +75,10 @@ export function AppSidebar({ activeItem = 'dashboard', onItemClick }: AppSidebar
   };
 
   return (
-    <Sidebar className="border-r border-purple-200 bg-gradient-to-b from-purple-50 to-pink-50">
+    <Sidebar 
+      side="right" 
+      className="border-l border-purple-200 bg-gradient-to-b from-purple-50 to-pink-50"
+    >
       <SidebarHeader className="p-6 border-b border-purple-200">
         <div className="flex items-center gap-3">
           <div className="w-8 h-8 bg-purple-600 rounded-lg flex items-center justify-center">
@@ -108,7 +111,7 @@ export function AppSidebar({ activeItem = 'dashboard', onItemClick }: AppSidebar
                     `}
                     tooltip={isCollapsed ? item.title : undefined}
                   >
-                    <item.icon className={`w-5 h-5 ${isCollapsed ? '' : 'ml-3'}`} />
+                    <item.icon className={`w-5 h-5 ${isCollapsed ? '' : 'mr-3'}`} />
                     {!isCollapsed && (
                       <span className="font-medium text-right flex-1">{item.title}</span>
                     )}

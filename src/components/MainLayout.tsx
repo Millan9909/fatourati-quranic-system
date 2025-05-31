@@ -44,7 +44,7 @@ export function MainLayout() {
         <div className="flex-1 flex flex-col">
           {/* Header with sidebar trigger */}
           <header className="h-16 border-b border-purple-200 bg-white/80 backdrop-blur-sm flex items-center px-6 gap-4">
-            <SidebarTrigger className="text-purple-600 hover:bg-purple-100 p-2 rounded-md">
+            <SidebarTrigger className="text-purple-600 hover:bg-purple-100 p-2 rounded-md transition-colors">
               <Menu className="h-5 w-5" />
             </SidebarTrigger>
             
